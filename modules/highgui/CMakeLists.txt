@@ -267,7 +267,10 @@ if(APPLE)
 endif()
 
 if(MSVC)
-  set_target_properties(${the_module} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:atlthunk.lib /NODEFAULTLIB:atlsd.lib /NODEFAULTLIB:libcmt.lib /DEBUG")
+  if(NOT BUILD_SHARED_LIBS)
+    set_property(TARGET ${the_module} PROPERTY LINK_FLAGS "/NODEFAULTLIB:atlthunk.lib /NODEFAULTLIB:atlsd.lib /NODEFAULTLIB:libcmt.lib")
+  endif()
+  set_property(TARGET ${the_module} APPEND_STRING PROPERTY LINK_FLAGS " /DEBUG")
 endif()
 
 ocv_warnings_disable(CMAKE_CXX_FLAGS -Wno-deprecated-declarations)
